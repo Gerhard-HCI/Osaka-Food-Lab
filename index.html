@@ -4,73 +4,79 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Food in Tourism Survey</title>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#14213d; --navy-2:#1f3160; --gold:#b8963e; --gold-soft:#e9dcb8;
-  --bg:#f7f4ec; --card:#ffffff; --ink:#1b1f2a; --muted:#6b6f7b; --line:#e4dfd2;
-  --chip:#f3efe4; --chip-on:#14213d; --chip-on-ink:#fff;
+  --red:#E7380D; --red-dark:#c42f0a; --ink:#231815; --muted:#6f6866;
+  --bg:#ffffff; --panel:#e9e5e2; --card:#ffffff; --line:#e2ddd9;
+  --chip:#f4f1ef; --chip-on:#E7380D; --chip-on-ink:#fff; --field:#fafaf9;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0f1526; --card:#172038; --ink:#ecebe6; --muted:#a3a7b3; --line:#2a3555;
-    --chip:#202b48; --chip-on:#b8963e; --chip-on-ink:#14213d; --gold-soft:#4a3f22;
+    --ink:#f3efec; --muted:#b3aca8; --bg:#1b1715; --panel:#262120; --card:#231e1c;
+    --line:#3a3330; --chip:#2e2826; --field:#1f1b19;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0f1526; --card:#172038; --ink:#ecebe6; --muted:#a3a7b3; --line:#2a3555;
-  --chip:#202b48; --chip-on:#b8963e; --chip-on-ink:#14213d; --gold-soft:#4a3f22;
+  --ink:#f3efec; --muted:#b3aca8; --bg:#1b1715; --panel:#262120; --card:#231e1c;
+  --line:#3a3330; --chip:#2e2826; --field:#1f1b19;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font:16px/1.7 "Yu Gothic Medium","游ゴシック Medium",YuGothic,"游ゴシック体",-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic Pro","Helvetica Neue","Segoe UI","Noto Sans JP",Meiryo,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--red)}
+.topbar{background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.05);padding:14px 16px;display:flex;align-items:center;justify-content:center}
+.topbar a{display:flex;align-items:center;text-decoration:none;color:#231815}
+.topbar img{height:40px;width:auto;display:block}
+.wordmark{font-weight:800;letter-spacing:.12em;font-size:20px;color:#231815}
+.wordmark span{color:var(--red)}
+header.hero{background:var(--red);color:#fff;padding:34px 16px 30px;text-align:center}
+header.hero .eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.9}
+header.hero h1{font-weight:800;font-size:28px;margin:8px 0 6px;line-height:1.3}
+header.hero p{margin:0 auto;max-width:520px;font-size:15px;opacity:.95}
 .wrap{max-width:680px;margin:0 auto;padding:0 16px 120px}
-header{background:var(--navy);color:#fff;padding:40px 16px 34px;text-align:center;border-bottom:4px double var(--gold)}
-header .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
-header h1{font-family:Lora,serif;font-weight:700;font-size:30px;margin:10px 0 6px;line-height:1.2}
-header p{margin:0 auto;max-width:520px;color:#d6d9e2;font-size:15px}
 .progress{position:sticky;top:0;z-index:5;height:4px;background:var(--line)}
-.progress span{display:block;height:100%;width:0;background:var(--gold);transition:width .25s}
-.intro{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:22px 0 8px;font-size:15px}
-.intro a{color:var(--gold);font-weight:600}
-.intro .sig{font-family:Lora,serif;font-style:italic;margin-top:10px}
-h2{font-family:Lora,serif;font-size:21px;margin:34px 0 4px;color:var(--ink)}
-h2 small{display:block;font-family:Inter,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
-.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:12px 0}
-.q label.t{display:block;font-weight:600;margin-bottom:4px}
+.progress span{display:block;height:100%;width:0;background:var(--red);transition:width .25s}
+.intro{background:var(--panel);border-radius:4px;padding:20px;margin:22px 0 8px;font-size:15px}
+.intro a{font-weight:700}
+.intro .sig{font-weight:700;margin-top:10px}
+h2{font-weight:800;font-size:20px;margin:36px 0 4px;padding-left:12px;border-left:5px solid var(--red)}
+h2 small{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);font-weight:700}
+.q{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:18px;margin:12px 0}
+.q label.t{display:block;font-weight:700;margin-bottom:4px}
 .q .hint{font-size:13px;color:var(--muted);margin-bottom:10px}
-.num{color:var(--gold);font-family:Lora,serif;margin-right:6px}
+.num{color:var(--red);margin-right:6px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .chips input{position:absolute;opacity:0;pointer-events:none}
-.chips label{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;user-select:none;transition:.15s}
+.chips label{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px;cursor:pointer;user-select:none;transition:.15s}
 .chips input:checked+label{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
-.chips input:focus-visible+label{outline:2px solid var(--gold);outline-offset:2px}
+.chips input:focus-visible+label{outline:2px solid var(--red);outline-offset:2px}
 .rating label{min-width:44px;text-align:center}
-input[type=text],textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-top:8px}
+input[type=text],textarea{width:100%;font:inherit;color:var(--ink);background:var(--field);border:1px solid #ccc;border-radius:4px;padding:10px 12px;margin-top:8px}
 textarea{min-height:88px;resize:vertical}
-input[type=text]:focus,textarea:focus{outline:none;border-color:var(--gold)}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--red)}
 .other{margin-top:8px}
 .actions{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));z-index:6}
 .actions .in{max-width:680px;margin:0 auto;display:flex;gap:8px}
-button{font:600 15px Inter,sans-serif;border:0;border-radius:12px;padding:14px 16px;cursor:pointer}
-.primary{flex:1;background:var(--navy);color:#fff;border:1px solid var(--gold)}
-.ghost{background:var(--chip);color:var(--ink);border:1px solid var(--line)}
-.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;transition:.25s;pointer-events:none}
-.toast.on{opacity:1}
+button{font-weight:700;font-size:15px;font-family:inherit;border:0;border-radius:999px;padding:14px 16px;cursor:pointer}
+.primary{flex:1;background:var(--red);color:#fff;box-shadow:0 4px 12px rgba(231,56,13,.4)}
+.primary:active{background:var(--red-dark)}
 button:disabled{opacity:.6;cursor:default}
-.thanks{position:fixed;inset:0;background:var(--navy);color:#fff;display:none;align-items:center;justify-content:center;padding:24px;z-index:10;text-align:center}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#231815;color:#fff;padding:10px 16px;border-radius:4px;font-size:14px;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+.thanks{position:fixed;inset:0;background:var(--red);color:#fff;display:none;align-items:center;justify-content:center;padding:24px;z-index:10;text-align:center}
 .thanks.on{display:flex}
-.thanks .box{max-width:420px;border:4px double var(--gold);border-radius:16px;padding:36px 24px}
-.thanks .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
-.thanks h3{font-family:Lora,serif;font-size:32px;margin:10px 0}
-.thanks p{color:#d6d9e2;margin:0 0 20px}
-.thanks a{color:var(--gold);font-weight:600;text-decoration:none}
+.thanks .box{max-width:420px;background:#fff;color:#231815;border-radius:4px;padding:36px 24px}
+.thanks .box img{height:44px;margin-bottom:8px}
+.thanks h3{font-weight:800;font-size:30px;margin:6px 0 10px}
+.thanks p{margin:0 0 20px}
+.thanks a{color:var(--red);font-weight:700;text-decoration:none}
 footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px}
 </style>
 </head>
 <body>
-<header>
-  <div class="eyebrow">Osaka Food Lab · Food in Tourism</div>
+<div class="topbar"><a href="https://www.osakafoodlab.com/" target="_blank" rel="noopener" aria-label="Osaka Food Lab"><img src="https://www.osakafoodlab.com/wp/wp-content/themes/ofl/assets/img/logo.png" alt="OSAKA FOOD LAB" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'wordmark',innerHTML:'OSAKA FOOD <span>LAB</span>'}))"></a></div>
+<header class="hero">
+  <div class="eyebrow">Food in Tourism · 食と観光</div>
   <h1>What do food lovers really want from Japan?</h1>
   <p>A short questionnaire. About 8 minutes. Every question is optional.</p>
 </header>
@@ -95,7 +101,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px}
 <div class="toast" id="toast"></div>
 <div class="thanks" id="thanks">
   <div class="box">
-    <div class="eyebrow">Osaka Food Lab</div>
+    <img src="https://www.osakafoodlab.com/wp/wp-content/themes/ofl/assets/img/logo.png" alt="OSAKA FOOD LAB" onerror="this.remove()">
     <h3>Thank you!</h3>
     <p>Your answers have been sent. They'll help shape the "Food in Tourism" talk.</p>
     <a id="thanksLink" href="https://www.osakafoodlab.com/" target="_blank" rel="noopener">Discover Osaka Food Lab →</a>
@@ -243,4 +249,3 @@ btn.onclick=async()=>{
 </script>
 </body>
 </html>
-
