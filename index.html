@@ -1,1 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Food in Tourism Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#14213d; --navy-2:#1f3160; --gold:#b8963e; --gold-soft:#e9dcb8;
+  --bg:#f7f4ec; --card:#ffffff; --ink:#1b1f2a; --muted:#6b6f7b; --line:#e4dfd2;
+  --chip:#f3efe4; --chip-on:#14213d; --chip-on-ink:#fff;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1526; --card:#172038; --ink:#ecebe6; --muted:#a3a7b3; --line:#2a3555;
+    --chip:#202b48; --chip-on:#b8963e; --chip-on-ink:#14213d; --gold-soft:#4a3f22;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1526; --card:#172038; --ink:#ecebe6; --muted:#a3a7b3; --line:#2a3555;
+  --chip:#202b48; --chip-on:#b8963e; --chip-on-ink:#14213d; --gold-soft:#4a3f22;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px 120px}
+header{background:var(--navy);color:#fff;padding:40px 16px 34px;text-align:center;border-bottom:4px double var(--gold)}
+header .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+header h1{font-family:Lora,serif;font-weight:700;font-size:30px;margin:10px 0 6px;line-height:1.2}
+header p{margin:0 auto;max-width:520px;color:#d6d9e2;font-size:15px}
+.progress{position:sticky;top:0;z-index:5;height:4px;background:var(--line)}
+.progress span{display:block;height:100%;width:0;background:var(--gold);transition:width .25s}
+.intro{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:22px 0 8px;font-size:15px}
+.intro a{color:var(--gold);font-weight:600}
+.intro .sig{font-family:Lora,serif;font-style:italic;margin-top:10px}
+h2{font-family:Lora,serif;font-size:21px;margin:34px 0 4px;color:var(--ink)}
+h2 small{display:block;font-family:Inter,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:12px 0}
+.q label.t{display:block;font-weight:600;margin-bottom:4px}
+.q .hint{font-size:13px;color:var(--muted);margin-bottom:10px}
+.num{color:var(--gold);font-family:Lora,serif;margin-right:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer;user-select:none;transition:.15s}
+.chips input:checked+label{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+.chips input:focus-visible+label{outline:2px solid var(--gold);outline-offset:2px}
+.rating label{min-width:44px;text-align:center}
+input[type=text],textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-top:8px}
+textarea{min-height:88px;resize:vertical}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--gold)}
+.other{margin-top:8px}
+.actions{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));z-index:6}
+.actions .in{max-width:680px;margin:0 auto;display:flex;gap:8px}
+button{font:600 15px Inter,sans-serif;border:0;border-radius:12px;padding:14px 16px;cursor:pointer}
+.primary{flex:1;background:var(--navy);color:#fff;border:1px solid var(--gold)}
+.ghost{background:var(--chip);color:var(--ink);border:1px solid var(--line)}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+button:disabled{opacity:.6;cursor:default}
+.thanks{position:fixed;inset:0;background:var(--navy);color:#fff;display:none;align-items:center;justify-content:center;padding:24px;z-index:10;text-align:center}
+.thanks.on{display:flex}
+.thanks .box{max-width:420px;border:4px double var(--gold);border-radius:16px;padding:36px 24px}
+.thanks .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.thanks h3{font-family:Lora,serif;font-size:32px;margin:10px 0}
+.thanks p{color:#d6d9e2;margin:0 0 20px}
+.thanks a{color:var(--gold);font-weight:600;text-decoration:none}
+footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Osaka Food Lab · Food in Tourism</div>
+  <h1>What do food lovers really want from Japan?</h1>
+  <p>A short questionnaire. About 8 minutes. Every question is optional.</p>
+</header>
+<div class="progress"><span id="bar"></span></div>
+
+<main class="wrap">
+  <div class="intro">
+    I've been invited to speak at <strong>Osaka Food Lab</strong>, a project sponsored by Hankyu, on the theme <em>"Food in Tourism"</em>. I'll be talking about what inbound visitors and foodies expect from Japan, how they rate what they find, and what Osaka is currently missing.<br><br>
+    I'd love your honest input. When you're done, tap <strong>Submit answers</strong> at the bottom.
+    <span id="labLink"></span>
+    <div class="sig">Thank you, Gerhard</div>
+  </div>
+
+  <form id="f" autocomplete="on"></form>
+
+  <footer>Your answers are used only to prepare the talk and won't be shared with your name.</footer>
+</main>
+
+<div class="actions"><div class="in">
+  <button type="button" class="primary" id="send">Submit answers</button>
+</div></div>
+<div class="toast" id="toast"></div>
+<div class="thanks" id="thanks">
+  <div class="box">
+    <div class="eyebrow">Osaka Food Lab</div>
+    <h3>Thank you!</h3>
+    <p>Your answers have been sent. They'll help shape the "Food in Tourism" talk.</p>
+    <a id="thanksLink" href="https://www.osakafoodlab.com/" target="_blank" rel="noopener">Discover Osaka Food Lab →</a>
+  </div>
+</div>
+
+<script>
+// ===== Settings =====
+const FORMSPREE_ID = "mqpepybj";
+const LAB_URL      = "https://www.osakafoodlab.com/";
+
+const S = [
+ {title:"About you", eyebrow:"Part 1", qs:[
+  {id:"name", t:"Your name", type:"text", hint:"Optional"},
+  {id:"base", t:"Where are you based (country / city)?", type:"text"},
+  {id:"visits", t:"How many times have you visited Japan?", type:"one", o:["First time","2–3","4–9","10+","I live in Japan"]},
+  {id:"osaka", t:"Have you been to Osaka? If so, how many times and for how many nights?", type:"text"},
+  {id:"diner", t:"How would you describe yourself as a diner?", type:"one", o:["Casual foodie","Serious foodie","Fine-dining collector","Chef / industry professional"], other:true}
+ ]},
+ {title:"Expectations", eyebrow:"Part 2", qs:[
+  {id:"role", t:"What role does food play when you choose Japan as a destination?", type:"one", o:["Main reason","Major factor","Nice bonus","Minor"]},
+  {id:"expect", t:"Before your trip, what did you most expect from Japanese food?", type:"long"},
+  {id:"research", t:"Where do you research restaurants?", hint:"Select all that apply", type:"many", o:["Michelin / guides","Instagram","TikTok","Google Maps","Tabelog","Friends","Concierge / travel advisor"], other:true},
+  {id:"assoc", t:"What do you associate with Osaka's food scene, compared with Tokyo and Kyoto?", type:"long"}
+ ]},
+ {title:"Experience & evaluation", eyebrow:"Part 3", qs:[
+  {id:"best", t:"What were the best food experiences you've had in Japan, and why?", type:"long"},
+  {id:"frustr", t:"What disappointed or frustrated you?", hint:"Select all that apply, and add detail below", type:"many", o:["Getting reservations","Language","Payment","Crowds","Queues","Tourist traps","Dietary needs"], other:true, note:true},
+  {id:"booking", t:"How easy was it to get reservations at the places you wanted?", hint:"1 = very hard · 5 = very easy", type:"rate"},
+  {id:"osakaRate", t:"If you visited Osaka, how would you rate its food experience overall?", hint:"1 = poor · 5 = outstanding", type:"rate", note:"What stood out?"}
+ ]},
+ {title:"What Osaka is lacking", eyebrow:"Part 4", qs:[
+  {id:"stay", t:"What would make you stay longer in Osaka, or choose it over Tokyo or Kyoto?", type:"long"},
+  {id:"missing", t:"Which types of food experiences are missing or hard to find in Osaka?", hint:"Select all that apply", type:"many", o:["High-end dining","Guided food tours","Market / producer visits","Cooking classes","Izakaya access","Late-night options"], other:true},
+  {id:"practical", t:"Is there anything practical that holds Osaka back?", hint:"e.g. English information, booking systems, guides, transport, hotels", type:"long"}
+ ]},
+ {title:"Trends & spending", eyebrow:"Part 5", qs:[
+  {id:"trends", t:"Which food trends are you or your circle most interested in right now?", hint:"Select all that apply", type:"many", o:["Sake & natural wine","Kappo / counter dining","Regional cuisine","Plant-based","Producer & farm visits","Ramen & street food"], other:true},
+  {id:"spend", t:"Roughly how much do you spend per person on your most special meal in Japan?", type:"one", o:["Under ¥10k","¥10–30k","¥30–60k","¥60k+"]},
+  {id:"oneThing", t:"If you could tell Osaka's food and tourism leaders one thing, what would it be?", type:"long"}
+ ]}
+];
+
+const f=document.getElementById('f'); let n=0;
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+S.forEach(sec=>{
+  f.insertAdjacentHTML('beforeend',`<h2><small>${sec.eyebrow}</small>${sec.title}</h2>`);
+  sec.qs.forEach(q=>{
+    const num = q.id==="name" ? "" : `<span class="num">${++n}.</span>`;
+    let h=`<div class="q" data-id="${q.id}"><label class="t" for="${q.id}">${num}${esc(q.t)}</label>`;
+    if(q.hint) h+=`<div class="hint">${esc(q.hint)}</div>`;
+    if(q.type==="text") h+=`<input type="text" id="${q.id}" name="${q.id}">`;
+    if(q.type==="long") h+=`<textarea id="${q.id}" name="${q.id}"></textarea>`;
+    if(q.type==="one"||q.type==="many"||q.type==="rate"){
+      const opts=q.type==="rate"?["1","2","3","4","5"]:q.o;
+      const it=q.type==="many"?"checkbox":"radio";
+      h+=`<div class="chips ${q.type==="rate"?"rating":""}">`+opts.map((o,i)=>`<input type="${it}" id="${q.id}_${i}" name="${q.id}" value="${esc(o)}"><label for="${q.id}_${i}">${esc(o)}</label>`).join('')+`</div>`;
+      if(q.other) h+=`<input type="text" class="other" name="${q.id}_other" placeholder="Other…">`;
+      if(q.note) h+=`<textarea name="${q.id}_note" placeholder="${typeof q.note==='string'?esc(q.note):'Tell me more…'}"></textarea>`;
+    }
+    f.insertAdjacentHTML('beforeend',h+`</div>`);
+  });
+});
+// allow un-selecting a radio by tapping it again
+f.querySelectorAll('input[type=radio]').forEach(r=>{
+  r.addEventListener('mousedown',()=>{r._was=r.checked});
+  r.addEventListener('click',()=>{if(r._was){r.checked=false;r._was=false;f.dispatchEvent(new Event('input'))}});
+});
+if(LAB_URL) document.getElementById('labLink').innerHTML=`<br><br><a href="${LAB_URL}" target="_blank" rel="noopener">More about Osaka Food Lab →</a>`;
+
+function vals(id){
+  const fd=new FormData(f);
+  let v=fd.getAll(id).filter(Boolean);
+  const o=(fd.get(id+"_other")||"").trim(); if(o) v.push(o);
+  return v.join(", ");
+}
+function compile(){
+  const fd=new FormData(f); let out=["*Osaka Food Lab – Food in Tourism questionnaire*",""]; let k=0;
+  S.forEach(sec=>{
+    let block=[];
+    sec.qs.forEach(q=>{
+      const label = q.id==="name" ? "Name" : `${++k}. ${q.t}`;
+      let v=vals(q.id);
+      const note=(fd.get(q.id+"_note")||"").trim();
+      if(note) v = v ? `${v} — ${note}` : note;
+      if(v) block.push(`${label}\n→ ${v}`);
+    });
+    if(block.length) out.push(`*${sec.title}*`,...block,"");
+  });
+  return out.join("\n").trim();
+}
+function answered(){
+  return S.flatMap(s=>s.qs).filter(q=>{
+    const fd=new FormData(f); return vals(q.id) || (fd.get(q.id+"_note")||"").trim();
+  }).length;
+}
+const total=S.flatMap(s=>s.qs).length;
+const KEY="ofl-survey-draft";
+function save(){
+  document.getElementById('bar').style.width=(answered()/total*100)+"%";
+  try{const d={};new FormData(f).forEach((v,k)=>{(d[k]=d[k]||[]).push(v)});localStorage.setItem(KEY,JSON.stringify(d))}catch(e){}
+}
+try{
+  const d=JSON.parse(localStorage.getItem(KEY)||"null");
+  if(d) Object.entries(d).forEach(([k,arr])=>{
+    f.querySelectorAll(`[name="${k}"]`).forEach(el=>{
+      if(el.type==="checkbox"||el.type==="radio") el.checked=arr.includes(el.value); else el.value=arr[0]||"";
+    });
+  });
+}catch(e){}
+f.addEventListener('input',save); f.addEventListener('change',save); save();
+
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)}
+function payload(){
+  const fd=new FormData(f); const p={}; let k=0;
+  S.forEach(sec=>sec.qs.forEach(q=>{
+    const key = q.id==="name" ? "Name" : `Q${String(++k).padStart(2,"0")} ${q.t}`;
+    let v=vals(q.id); const note=(fd.get(q.id+"_note")||"").trim();
+    if(note) v = v ? `${v} — ${note}` : note;
+    p[key]=v||"—";
+  }));
+  const name=(fd.get("name")||"").trim();
+  p._subject = "Osaka Food Lab survey" + (name ? ` – ${name}` : "");
+  p.summary = compile().replace(/\*/g,"");
+  return p;
+}
+const btn=document.getElementById('send');
+btn.onclick=async()=>{
+  if(!answered()){toast("Please answer at least one question");return}
+  btn.disabled=true; btn.textContent="Sending…";
+  try{
+    const r=await fetch(`https://formspree.io/f/${FORMSPREE_ID}`,{
+      method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify(payload())
+    });
+    if(!r.ok) throw new Error(r.status);
+    try{localStorage.removeItem(KEY)}catch(e){}
+    document.getElementById('thanks').classList.add('on');
+    window.scrollTo(0,0);
+  }catch(e){
+    toast("Couldn't send. Please check your connection and try again.");
+    btn.disabled=false; btn.textContent="Submit answers";
+  }
+};
+</script>
+</body>
+</html>
 
