@@ -24,10 +24,10 @@
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:16px/1.7 "Yu Gothic Medium","游ゴシック Medium",YuGothic,"游ゴシック体",-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic Pro","Helvetica Neue","Segoe UI","Noto Sans JP",Meiryo,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--red)}
-.topbar{background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.05);padding:14px 16px;display:flex;align-items:center;justify-content:center}
+.topbar{background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.05);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .topbar a{display:flex;align-items:center;text-decoration:none;color:#231815}
 .topbar img{height:40px;width:auto;display:block}
-.wordmark{font-weight:800;letter-spacing:.12em;font-size:20px;color:#231815}
+.wordmark{font-weight:800;letter-spacing:.1em;font-size:18px;white-space:nowrap;color:#231815}
 .wordmark span{color:var(--red)}
 header.hero{background:var(--red);color:#fff;padding:34px 16px 30px;text-align:center}
 header.hero .eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.9}
@@ -70,181 +70,186 @@ button:disabled{opacity:.6;cursor:default}
 .thanks h3{font-weight:800;font-size:30px;margin:6px 0 10px}
 .thanks p{margin:0 0 20px}
 .thanks a{color:var(--red);font-weight:700;text-decoration:none}
+.topbar{position:relative}
+.lang{flex:none;display:flex;border:1px solid #E7380D;border-radius:999px;overflow:hidden}
+.lang button{background:#fff;color:#E7380D;border-radius:0;padding:6px 12px;font-size:13px;box-shadow:none}
+.lang button.on{background:#E7380D;color:#fff}
 footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px}
 </style>
 </head>
 <body>
-<div class="topbar"><a href="https://www.osakafoodlab.com/" target="_blank" rel="noopener" aria-label="Osaka Food Lab"><img src="https://www.osakafoodlab.com/wp/wp-content/themes/ofl/assets/img/logo.png" alt="OSAKA FOOD LAB" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'wordmark',innerHTML:'OSAKA FOOD <span>LAB</span>'}))"></a></div>
+<div class="topbar"><a href="https://www.osakafoodlab.com/" target="_blank" rel="noopener" aria-label="Osaka Food Lab"><img src="https://www.osakafoodlab.com/wp/wp-content/themes/ofl/assets/img/logo.png" alt="OSAKA FOOD LAB" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'wordmark',innerHTML:'OSAKA FOOD <span>LAB</span>'}))"></a>
+  <div class="lang" role="group" aria-label="Language"><button type="button" data-l="en">EN</button><button type="button" data-l="ja">日本語</button></div>
+</div>
 <header class="hero">
   <div class="eyebrow">Food in Tourism · 食と観光</div>
-  <h1>What do food lovers really want from Japan?</h1>
-  <p>A short questionnaire. About 8 minutes. Every question is optional.</p>
+  <h1 data-i="h1"></h1>
+  <p data-i="sub"></p>
 </header>
 <div class="progress"><span id="bar"></span></div>
 
 <main class="wrap">
   <div class="intro">
-    I've been invited to speak at <strong>Osaka Food Lab</strong>, a project sponsored by Hankyu, on the theme <em>"Food in Tourism"</em>. I'll be talking about what inbound visitors and foodies expect from Japan, how they rate what they find, and what Osaka is currently missing.<br><br>
-    I'd love your honest input. When you're done, tap <strong>Submit answers</strong> at the bottom.
-    <span id="labLink"></span>
-    <div class="sig">Thank you, Gerhard</div>
+    <span data-i="intro"></span>
+    <br><br><a href="https://www.osakafoodlab.com/" target="_blank" rel="noopener" data-i="more"></a>
+    <div class="sig" data-i="sig"></div>
   </div>
-
   <form id="f" autocomplete="on"></form>
-
-  <footer>Your answers are used only to prepare the talk and won't be shared with your name.</footer>
+  <footer data-i="foot"></footer>
 </main>
 
 <div class="actions"><div class="in">
-  <button type="button" class="primary" id="send">Submit answers</button>
+  <button type="button" class="primary" id="send"></button>
 </div></div>
 <div class="toast" id="toast"></div>
 <div class="thanks" id="thanks">
   <div class="box">
     <img src="https://www.osakafoodlab.com/wp/wp-content/themes/ofl/assets/img/logo.png" alt="OSAKA FOOD LAB" onerror="this.remove()">
-    <h3>Thank you!</h3>
-    <p>Your answers have been sent. They'll help shape the "Food in Tourism" talk.</p>
-    <a id="thanksLink" href="https://www.osakafoodlab.com/" target="_blank" rel="noopener">Discover Osaka Food Lab →</a>
+    <h3 data-i="ty"></h3>
+    <p data-i="tyMsg"></p>
+    <a href="https://www.osakafoodlab.com/" target="_blank" rel="noopener" data-i="discover"></a>
   </div>
 </div>
 
 <script>
 // ===== Settings =====
 const FORMSPREE_ID = "mqpepybj";
-const LAB_URL      = "https://www.osakafoodlab.com/";
 
+const UI = {
+ en:{h1:"What do food lovers really want from Japan?", sub:"A short questionnaire. About 8 minutes. Every question is optional.",
+  intro:'I\'ve been invited to speak at <strong>Osaka Food Lab</strong>, a project sponsored by Hankyu, on the theme <em>"Food in Tourism"</em>. I\'ll be talking about what inbound visitors and foodies expect from Japan, how they rate what they find, and what Osaka is currently missing.<br><br>I\'d love your honest input. When you\'re done, tap <strong>Submit answers</strong> at the bottom.',
+  more:"More about Osaka Food Lab →", sig:"Thank you, Gerhard",
+  foot:"Your answers are used only to prepare the talk and won't be shared with your name.",
+  send:"Submit answers", sending:"Sending…", other:"Other…", note:"Tell me more…",
+  needOne:"Please answer at least one question", fail:"Couldn't send. Please check your connection and try again.",
+  ty:"Thank you!", tyMsg:'Your answers have been sent. They\'ll help shape the "Food in Tourism" talk.', discover:"Discover Osaka Food Lab →",
+  title:"Food in Tourism Survey"},
+ ja:{h1:"食を愛する旅行者が、日本に本当に求めるものとは？", sub:"所要時間は約8分。すべての質問は任意です。",
+  intro:'阪急が協賛するプロジェクト<strong>「Osaka Food Lab」</strong>で、<em>「Food in Tourism（食と観光）」</em>をテーマに登壇することになりました。インバウンドの旅行者やフーディーが日本の食に何を期待し、実際にどう評価しているのか、そして今の大阪に何が足りないのかをお話しする予定です。<br><br>ぜひ率直なご意見をお聞かせください。ご回答後、画面下の<strong>「回答を送信」</strong>をタップしてください。',
+  more:"Osaka Food Labについて詳しく →", sig:"ご協力ありがとうございます。ゲルハルト",
+  foot:"ご回答はトークの準備にのみ使用し、お名前と共に公開することはありません。",
+  send:"回答を送信", sending:"送信中…", other:"その他…", note:"詳しく教えてください…",
+  needOne:"少なくとも1問にご回答ください", fail:"送信できませんでした。通信環境をご確認のうえ、もう一度お試しください。",
+  ty:"ありがとうございました！", tyMsg:"ご回答を送信しました。「食と観光」トークの参考にさせていただきます。", discover:"Osaka Food Labについて →",
+  title:"食と観光アンケート"}
+};
+
+// option values are stored in English so all responses line up; labels show in the chosen language
 const S = [
- {title:"About you", eyebrow:"Part 1", qs:[
-  {id:"name", t:"Your name", type:"text", hint:"Optional"},
-  {id:"base", t:"Where are you based (country / city)?", type:"text"},
-  {id:"visits", t:"How many times have you visited Japan?", type:"one", o:["First time","2–3","4–9","10+","I live in Japan"]},
-  {id:"osaka", t:"Have you been to Osaka? If so, how many times and for how many nights?", type:"text"},
-  {id:"diner", t:"How would you describe yourself as a diner?", type:"one", o:["Casual foodie","Serious foodie","Fine-dining collector","Chef / industry professional"], other:true}
+ {title:{en:"About you",ja:"あなたについて"}, eyebrow:{en:"Part 1",ja:"パート1"}, qs:[
+  {id:"name", t:{en:"Your name",ja:"お名前"}, type:"text", hint:{en:"Optional",ja:"任意"}},
+  {id:"base", t:{en:"Where are you based (country / city)?",ja:"お住まいの国・都市を教えてください。"}, type:"text"},
+  {id:"visits", t:{en:"How many times have you visited Japan?",ja:"これまでに日本を何回訪れましたか？"}, type:"one", o:[["First time","今回が初めて"],["2–3","2〜3回"],["4–9","4〜9回"],["10+","10回以上"],["I live in Japan","日本在住"]]},
+  {id:"osaka", t:{en:"Have you been to Osaka? If so, how many times and for how many nights?",ja:"大阪を訪れたことはありますか？ある場合は、回数と滞在泊数を教えてください。"}, type:"text"},
+  {id:"diner", t:{en:"How would you describe yourself as a diner?",ja:"ご自身はどのようなタイプの食べ手ですか？"}, type:"one", o:[["Casual foodie","気軽に楽しむフーディー"],["Serious foodie","本格派フーディー"],["Fine-dining collector","ファインダイニング巡りが趣味"],["Chef / industry professional","シェフ・飲食業界関係者"]], other:true}
  ]},
- {title:"Expectations", eyebrow:"Part 2", qs:[
-  {id:"role", t:"What role does food play when you choose Japan as a destination?", type:"one", o:["Main reason","Major factor","Nice bonus","Minor"]},
-  {id:"expect", t:"Before your trip, what did you most expect from Japanese food?", type:"long"},
-  {id:"research", t:"Where do you research restaurants?", hint:"Select all that apply", type:"many", o:["Michelin / guides","Instagram","TikTok","Google Maps","Tabelog","Friends","Concierge / travel advisor"], other:true},
-  {id:"assoc", t:"What do you associate with Osaka's food scene, compared with Tokyo and Kyoto?", type:"long"}
+ {title:{en:"Expectations",ja:"期待"}, eyebrow:{en:"Part 2",ja:"パート2"}, qs:[
+  {id:"role", t:{en:"What role does food play when you choose Japan as a destination?",ja:"旅行先として日本を選ぶとき、食はどのくらい重要ですか？"}, type:"one", o:[["Main reason","一番の目的"],["Major factor","大きな決め手"],["Nice bonus","あればうれしい"],["Minor","あまり重要ではない"]]},
+  {id:"expect", t:{en:"Before your trip, what did you most expect from Japanese food?",ja:"旅行前、日本の食に最も期待していたことは何ですか？"}, type:"long"},
+  {id:"research", t:{en:"Where do you research restaurants?",ja:"レストランはどこで調べますか？"}, hint:{en:"Select all that apply",ja:"当てはまるものをすべて選択"}, type:"many", o:[["Michelin / guides","ミシュラン・ガイドブック"],["Instagram","Instagram"],["TikTok","TikTok"],["Google Maps","Googleマップ"],["Tabelog","食べログ"],["Friends","友人・知人"],["Concierge / travel advisor","コンシェルジュ・旅行アドバイザー"]], other:true},
+  {id:"assoc", t:{en:"What do you associate with Osaka's food scene, compared with Tokyo and Kyoto?",ja:"東京や京都と比べて、大阪の食にはどのようなイメージがありますか？"}, type:"long"}
  ]},
- {title:"Experience & evaluation", eyebrow:"Part 3", qs:[
-  {id:"best", t:"What were the best food experiences you've had in Japan, and why?", type:"long"},
-  {id:"frustr", t:"What disappointed or frustrated you?", hint:"Select all that apply, and add detail below", type:"many", o:["Getting reservations","Language","Payment","Crowds","Queues","Tourist traps","Dietary needs"], other:true, note:true},
-  {id:"booking", t:"How easy was it to get reservations at the places you wanted?", hint:"1 = very hard · 5 = very easy", type:"rate"},
-  {id:"osakaRate", t:"If you visited Osaka, how would you rate its food experience overall?", hint:"1 = poor · 5 = outstanding", type:"rate", note:"What stood out?"}
+ {title:{en:"Experience & evaluation",ja:"体験と評価"}, eyebrow:{en:"Part 3",ja:"パート3"}, qs:[
+  {id:"best", t:{en:"What were the best food experiences you've had in Japan, and why?",ja:"日本で最も印象に残った食体験と、その理由を教えてください。"}, type:"long"},
+  {id:"frustr", t:{en:"What disappointed or frustrated you?",ja:"がっかりしたこと、不便に感じたことは何ですか？"}, hint:{en:"Select all that apply, and add detail below",ja:"当てはまるものをすべて選び、下に詳しくご記入ください"}, type:"many", o:[["Getting reservations","予約の取りにくさ"],["Language","言葉の壁"],["Payment","支払い"],["Crowds","混雑"],["Queues","行列"],["Tourist traps","観光客向けの店"],["Dietary needs","食事制限への対応"]], other:true, note:true},
+  {id:"booking", t:{en:"How easy was it to get reservations at the places you wanted?",ja:"行きたかった店の予約は、どのくらい取りやすかったですか？"}, hint:{en:"1 = very hard · 5 = very easy",ja:"1 = とても難しい · 5 = とても簡単"}, type:"rate"},
+  {id:"osakaRate", t:{en:"If you visited Osaka, how would you rate its food experience overall?",ja:"大阪を訪れたことがある方へ：大阪の食体験を総合的に評価してください。"}, hint:{en:"1 = poor · 5 = outstanding",ja:"1 = 不満 · 5 = 素晴らしい"}, type:"rate", note:{en:"What stood out?",ja:"特に印象に残ったことは？"}}
  ]},
- {title:"What Osaka is lacking", eyebrow:"Part 4", qs:[
-  {id:"stay", t:"What would make you stay longer in Osaka, or choose it over Tokyo or Kyoto?", type:"long"},
-  {id:"missing", t:"Which types of food experiences are missing or hard to find in Osaka?", hint:"Select all that apply", type:"many", o:["High-end dining","Guided food tours","Market / producer visits","Cooking classes","Izakaya access","Late-night options"], other:true},
-  {id:"practical", t:"Is there anything practical that holds Osaka back?", hint:"e.g. English information, booking systems, guides, transport, hotels", type:"long"}
+ {title:{en:"What Osaka is lacking",ja:"大阪に足りないもの"}, eyebrow:{en:"Part 4",ja:"パート4"}, qs:[
+  {id:"stay", t:{en:"What would make you stay longer in Osaka, or choose it over Tokyo or Kyoto?",ja:"大阪での滞在を延ばしたり、東京や京都より大阪を選んだりする決め手は何でしょうか？"}, type:"long"},
+  {id:"missing", t:{en:"Which types of food experiences are missing or hard to find in Osaka?",ja:"大阪で不足している、または見つけにくい食体験はどれですか？"}, hint:{en:"Select all that apply",ja:"当てはまるものをすべて選択"}, type:"many", o:[["High-end dining","高級レストラン"],["Guided food tours","ガイド付きフードツアー"],["Market / producer visits","市場・生産者の訪問"],["Cooking classes","料理教室"],["Izakaya access","居酒屋の入りやすさ"],["Late-night options","深夜に食事できる店"]], other:true},
+  {id:"practical", t:{en:"Is there anything practical that holds Osaka back?",ja:"大阪の魅力を妨げている実務的な課題はありますか？"}, hint:{en:"e.g. English information, booking systems, guides, transport, hotels",ja:"例：英語の情報、予約システム、ガイド、交通、ホテル"}, type:"long"}
  ]},
- {title:"Trends & spending", eyebrow:"Part 5", qs:[
-  {id:"trends", t:"Which food trends are you or your circle most interested in right now?", hint:"Select all that apply", type:"many", o:["Sake & natural wine","Kappo / counter dining","Regional cuisine","Plant-based","Producer & farm visits","Ramen & street food"], other:true},
-  {id:"spend", t:"Roughly how much do you spend per person on your most special meal in Japan?", type:"one", o:["Under ¥10k","¥10–30k","¥30–60k","¥60k+"]},
-  {id:"oneThing", t:"If you could tell Osaka's food and tourism leaders one thing, what would it be?", type:"long"}
+ {title:{en:"Trends & spending",ja:"トレンドと予算"}, eyebrow:{en:"Part 5",ja:"パート5"}, qs:[
+  {id:"trends", t:{en:"Which food trends are you or your circle most interested in right now?",ja:"あなたや周りの方が今最も関心を持っている食のトレンドは？"}, hint:{en:"Select all that apply",ja:"当てはまるものをすべて選択"}, type:"many", o:[["Sake & natural wine","日本酒・ナチュラルワイン"],["Kappo / counter dining","割烹・カウンター料理"],["Regional cuisine","郷土料理"],["Plant-based","プラントベース"],["Producer & farm visits","生産者・農園の訪問"],["Ramen & street food","ラーメン・ストリートフード"]], other:true},
+  {id:"spend", t:{en:"Roughly how much do you spend per person on your most special meal in Japan?",ja:"日本での特別な食事に、1人あたりおよそいくら使いますか？"}, type:"one", o:[["Under ¥10k","1万円未満"],["¥10–30k","1〜3万円"],["¥30–60k","3〜6万円"],["¥60k+","6万円以上"]]},
+  {id:"oneThing", t:{en:"If you could tell Osaka's food and tourism leaders one thing, what would it be?",ja:"大阪の食と観光を担う方々に一つ伝えるとしたら、何を伝えますか？"}, type:"long"}
  ]}
 ];
 
-const f=document.getElementById('f'); let n=0;
-const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-S.forEach(sec=>{
-  f.insertAdjacentHTML('beforeend',`<h2><small>${sec.eyebrow}</small>${sec.title}</h2>`);
-  sec.qs.forEach(q=>{
-    const num = q.id==="name" ? "" : `<span class="num">${++n}.</span>`;
-    let h=`<div class="q" data-id="${q.id}"><label class="t" for="${q.id}">${num}${esc(q.t)}</label>`;
-    if(q.hint) h+=`<div class="hint">${esc(q.hint)}</div>`;
-    if(q.type==="text") h+=`<input type="text" id="${q.id}" name="${q.id}">`;
-    if(q.type==="long") h+=`<textarea id="${q.id}" name="${q.id}"></textarea>`;
-    if(q.type==="one"||q.type==="many"||q.type==="rate"){
-      const opts=q.type==="rate"?["1","2","3","4","5"]:q.o;
-      const it=q.type==="many"?"checkbox":"radio";
-      h+=`<div class="chips ${q.type==="rate"?"rating":""}">`+opts.map((o,i)=>`<input type="${it}" id="${q.id}_${i}" name="${q.id}" value="${esc(o)}"><label for="${q.id}_${i}">${esc(o)}</label>`).join('')+`</div>`;
-      if(q.other) h+=`<input type="text" class="other" name="${q.id}_other" placeholder="Other…">`;
-      if(q.note) h+=`<textarea name="${q.id}_note" placeholder="${typeof q.note==='string'?esc(q.note):'Tell me more…'}"></textarea>`;
-    }
-    f.insertAdjacentHTML('beforeend',h+`</div>`);
-  });
-});
-// allow un-selecting a radio by tapping it again
-f.querySelectorAll('input[type=radio]').forEach(r=>{
-  r.addEventListener('mousedown',()=>{r._was=r.checked});
-  r.addEventListener('click',()=>{if(r._was){r.checked=false;r._was=false;f.dispatchEvent(new Event('input'))}});
-});
-if(LAB_URL) document.getElementById('labLink').innerHTML=`<br><br><a href="${LAB_URL}" target="_blank" rel="noopener">More about Osaka Food Lab →</a>`;
+const f=document.getElementById('f');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KEY="ofl-survey-draft", LKEY="ofl-survey-lang";
+let L="en";
+try{ const q=new URLSearchParams(location.search).get("lang"); L = q==="ja"||q==="en" ? q : (localStorage.getItem(LKEY) || ((navigator.language||"").startsWith("ja")?"ja":"en")); }catch(e){}
 
-function vals(id){
-  const fd=new FormData(f);
-  let v=fd.getAll(id).filter(Boolean);
-  const o=(fd.get(id+"_other")||"").trim(); if(o) v.push(o);
-  return v.join(", ");
-}
-function compile(){
-  const fd=new FormData(f); let out=["*Osaka Food Lab – Food in Tourism questionnaire*",""]; let k=0;
+function snapshot(){const d={};new FormData(f).forEach((v,k)=>{(d[k]=d[k]||[]).push(v)});return d}
+function restore(d){ if(!d) return; Object.entries(d).forEach(([k,arr])=>{
+  f.querySelectorAll(`[name="${k}"]`).forEach(el=>{ if(el.type==="checkbox"||el.type==="radio") el.checked=arr.includes(el.value); else el.value=arr[0]||""; });
+});}
+
+function render(){
+  const keep=f.children.length?snapshot():null;
+  const T=UI[L]; document.documentElement.lang=L; document.title=T.title;
+  document.querySelectorAll('[data-i]').forEach(el=>el.innerHTML=T[el.dataset.i]);
+  document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.l===L));
+  const btn=document.getElementById('send'); if(!btn.disabled) btn.textContent=T.send;
+  f.innerHTML=""; let n=0;
   S.forEach(sec=>{
-    let block=[];
+    f.insertAdjacentHTML('beforeend',`<h2><small>${sec.eyebrow[L]}</small>${sec.title[L]}</h2>`);
     sec.qs.forEach(q=>{
-      const label = q.id==="name" ? "Name" : `${++k}. ${q.t}`;
-      let v=vals(q.id);
-      const note=(fd.get(q.id+"_note")||"").trim();
-      if(note) v = v ? `${v} — ${note}` : note;
-      if(v) block.push(`${label}\n→ ${v}`);
-    });
-    if(block.length) out.push(`*${sec.title}*`,...block,"");
-  });
-  return out.join("\n").trim();
-}
-function answered(){
-  return S.flatMap(s=>s.qs).filter(q=>{
-    const fd=new FormData(f); return vals(q.id) || (fd.get(q.id+"_note")||"").trim();
-  }).length;
-}
-const total=S.flatMap(s=>s.qs).length;
-const KEY="ofl-survey-draft";
-function save(){
-  document.getElementById('bar').style.width=(answered()/total*100)+"%";
-  try{const d={};new FormData(f).forEach((v,k)=>{(d[k]=d[k]||[]).push(v)});localStorage.setItem(KEY,JSON.stringify(d))}catch(e){}
-}
-try{
-  const d=JSON.parse(localStorage.getItem(KEY)||"null");
-  if(d) Object.entries(d).forEach(([k,arr])=>{
-    f.querySelectorAll(`[name="${k}"]`).forEach(el=>{
-      if(el.type==="checkbox"||el.type==="radio") el.checked=arr.includes(el.value); else el.value=arr[0]||"";
+      const num = q.id==="name" ? "" : `<span class="num">${++n}.</span>`;
+      let h=`<div class="q"><label class="t" for="${q.id}">${num}${esc(q.t[L])}</label>`;
+      if(q.hint) h+=`<div class="hint">${esc(q.hint[L])}</div>`;
+      if(q.type==="text") h+=`<input type="text" id="${q.id}" name="${q.id}">`;
+      if(q.type==="long") h+=`<textarea id="${q.id}" name="${q.id}"></textarea>`;
+      if(q.type==="one"||q.type==="many"||q.type==="rate"){
+        const opts=q.type==="rate"?["1","2","3","4","5"].map(x=>[x,x]):q.o;
+        const it=q.type==="many"?"checkbox":"radio";
+        h+=`<div class="chips ${q.type==="rate"?"rating":""}">`+opts.map((o,i)=>`<input type="${it}" id="${q.id}_${i}" name="${q.id}" value="${esc(o[0])}"><label for="${q.id}_${i}">${esc(L==="ja"?o[1]:o[0])}</label>`).join('')+`</div>`;
+        if(q.other) h+=`<input type="text" class="other" name="${q.id}_other" placeholder="${T.other}">`;
+        if(q.note) h+=`<textarea name="${q.id}_note" placeholder="${esc(typeof q.note==='object'?q.note[L]:T.note)}"></textarea>`;
+      }
+      f.insertAdjacentHTML('beforeend',h+`</div>`);
     });
   });
-}catch(e){}
-f.addEventListener('input',save); f.addEventListener('change',save); save();
+  f.querySelectorAll('input[type=radio]').forEach(r=>{
+    r.addEventListener('mousedown',()=>{r._was=r.checked});
+    r.addEventListener('click',()=>{if(r._was){r.checked=false;r._was=false;save()}});
+  });
+  restore(keep); save();
+}
+document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem(LKEY,L)}catch(e){};render()});
 
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)}
+function vals(id){const fd=new FormData(f);let v=fd.getAll(id).filter(Boolean);const o=(fd.get(id+"_other")||"").trim();if(o)v.push(o);return v.join(", ")}
+function answerOf(q){const fd=new FormData(f);let v=vals(q.id);const note=(fd.get(q.id+"_note")||"").trim();if(note)v=v?`${v} — ${note}`:note;return v}
+const ALL=S.flatMap(s=>s.qs);
+function answered(){return ALL.filter(q=>answerOf(q)).length}
+function save(){
+  document.getElementById('bar').style.width=(answered()/ALL.length*100)+"%";
+  try{localStorage.setItem(KEY,JSON.stringify(snapshot()))}catch(e){}
+}
 function payload(){
-  const fd=new FormData(f); const p={}; let k=0;
-  S.forEach(sec=>sec.qs.forEach(q=>{
-    const key = q.id==="name" ? "Name" : `Q${String(++k).padStart(2,"0")} ${q.t}`;
-    let v=vals(q.id); const note=(fd.get(q.id+"_note")||"").trim();
-    if(note) v = v ? `${v} — ${note}` : note;
-    p[key]=v||"—";
-  }));
-  const name=(fd.get("name")||"").trim();
-  p._subject = "Osaka Food Lab survey" + (name ? ` – ${name}` : "");
-  p.summary = compile().replace(/\*/g,"");
+  const p={Language:L==="ja"?"日本語":"English"}; let k=0; const lines=[];
+  S.forEach(sec=>{
+    lines.push("", sec.title.en.toUpperCase());
+    sec.qs.forEach(q=>{
+      const label = q.id==="name" ? "Name" : `Q${String(++k).padStart(2,"0")} ${q.t.en}`;
+      const v=answerOf(q); p[label]=v||"—"; if(v) lines.push(`${label}\n→ ${v}`);
+    });
+  });
+  const name=(new FormData(f).get("name")||"").trim();
+  p._subject="Osaka Food Lab survey"+(L==="ja"?" (JA)":"")+(name?` – ${name}`:"");
+  p.summary=lines.join("\n").trim();
   return p;
 }
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2400)}
+
+render();
+try{restore(JSON.parse(localStorage.getItem(KEY)||"null"));save()}catch(e){}
+f.addEventListener('input',save); f.addEventListener('change',save);
+
 const btn=document.getElementById('send');
 btn.onclick=async()=>{
-  if(!answered()){toast("Please answer at least one question");return}
-  btn.disabled=true; btn.textContent="Sending…";
+  const T=UI[L];
+  if(!answered()){toast(T.needOne);return}
+  btn.disabled=true; btn.textContent=T.sending;
   try{
-    const r=await fetch(`https://formspree.io/f/${FORMSPREE_ID}`,{
-      method:"POST", headers:{"Content-Type":"application/json","Accept":"application/json"},
-      body:JSON.stringify(payload())
-    });
+    const r=await fetch(`https://formspree.io/f/${FORMSPREE_ID}`,{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload())});
     if(!r.ok) throw new Error(r.status);
     try{localStorage.removeItem(KEY)}catch(e){}
-    document.getElementById('thanks').classList.add('on');
-    window.scrollTo(0,0);
-  }catch(e){
-    toast("Couldn't send. Please check your connection and try again.");
-    btn.disabled=false; btn.textContent="Submit answers";
-  }
+    document.getElementById('thanks').classList.add('on'); window.scrollTo(0,0);
+  }catch(e){ toast(T.fail); btn.disabled=false; btn.textContent=T.send; }
 };
 </script>
 </body>
